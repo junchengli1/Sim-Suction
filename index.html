@@ -1,44 +1,269 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Sim-Suciton Project</title>
+  <head>
+    <title>Sim-Suction: Learning a Suction Grasp Policy for Cluttered Environments Using a Synthetic Benchmark</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <style>
-        /* Add your CSS styling here */
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .video-container {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 2em;
-        }
-        video {
-            width: 30%;
-        }
-    </style>
-</head>
-<body>
-    <h1>Sim-Suciton: Learning a Suction Grasp Policy</h1>
-    <h2>Overview</h2>
-    <p>
-    <!-- Add your project overview here -->
-    </p>
-    <h2>Videos</h2>
-    <div class="video-container">
-        <video controls>
-            <source src="video1.mp4" type="video/mp4">
+      body {
+        font-family: Arial, sans-serif;
+        color: #333;
+        line-height: 1.6;
+      }
+      header {
+        background-color: #428bca;
+        padding: 30px;
+      }
+      header h1 {
+        color: white;
+        font-weight: bold;
+        text-align: center;
+        word-wrap: break-word;
+        max-width: 100%;
+        margin-bottom: 5px;
+      }
+      header h3 {
+        color: white;
+        text-align: center;
+        font-weight: normal;
+        margin-top: 0;
+      }
+      footer {
+        background-color: #333;
+        padding: 20px;
+        font-size: 12px;
+        color: white;
+        text-align: center;
+        margin-top: 30px;
+      }
+      .shadow-box {
+        background-color: white;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        margin: 20px;
+        border-radius: 8px;
+      }
+      .video-container {
+        display: flex;
+        flex-direction: column; /* This will arrange the videos vertically */
+        align-items: center; /* This will center the videos */
+      }
+
+      .video {
+        width: 100%;  /* This will make the videos take the full width of the container */
+        position: relative;
+        padding-bottom: 56.25%; /* 16:9 aspect ratio */
+        height: 0;
+        overflow: hidden;
+        margin-bottom: 20px; /* Adds some space between the videos */
+      }
+
+      .video video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .figures-tables figure {
+    display: block;
+    overflow: auto;
+    height: auto;
+    width: 80%; /* Adjust this to control the width of the figures */
+    margin: 0 auto 80px auto; /* This will center the figure container */
+}
+
+.figures-tables img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: auto;
+}
+.figure1 img {
+    width: 50%;  /* or percentage, like 50% */
+    height: auto; /* or auto */
+}
+.acknowledgement-logos {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.acknowledgement-logos img {
+    width: 20%;  /* Adjust this value as needed */
+    height: 180px;
+    margin: 1px;
+}
+
+    </style>    
+  </head>
+  <body>
+    <header>
+      <h1>Sim-Suction: Learning a Suction Grasp Policy for Cluttered<br> Environments Using a Synthetic Benchmark</h1>
+      <h3>Juncheng Li<sup>1</sup>, David J. Cappelleri<sup>1</sup></h3>
+      <h3><sup>1</sup>Multi-Scale Robotics & Automation Lab, School of Mechanical Engineering, Purdue University, West Lafayette, IN USA</h3>
+    </header>
+    <div class="container">
+      <div class="shadow-box">
+        
+        <h2>Abstract</h2>
+        <p>
+          <i>
+            This paper presents Sim-Suction, a robust object-aware suction grasp policy for mobile manipulation platforms
+            with dynamic camera viewpoints, designed to pick up unknown
+            objects from cluttered environments. Suction grasp policies
+            typically employ data-driven approaches, necessitating large-scale,
+            accurately-annotated suction grasp datasets. However, the
+            generation of suction grasp datasets in cluttered environments
+            remains underexplored, leaving uncertainties about the relationship
+            between the object of interest and its surroundings. To
+            address this, we propose a benchmark synthetic dataset, Sim-
+            Suction-Dataset, comprising 500 cluttered environments with 3.2
+            million annotated suction grasp poses. The efficient Sim-Suction-
+            Dataset generation process provides novel insights by combining
+            analytical models with dynamic physical simulations to create
+            fast and accurate suction grasp pose annotations. We introduce
+            Sim-Suction-Pointnet to generate robust 6D suction grasp poses
+            by learning point-wise affordances from the Sim-Suction-Dataset,
+            leveraging the synergy of zero-shot text-to-segmentation. Real-world
+            experiments for picking up all objects demonstrate that
+            Sim-Suction-Pointnet achieves success rates of <strong> 96.76%, 94.23%,
+            and 92.39% </strong>on cluttered level 1 objects (prismatic shape),
+            cluttered level 2 objects (more complex geometry), and cluttered
+            mixed objects, respectively. The Sim-Suction policies outperform
+            state-of-the-art benchmarks tested by approximately 21% in
+            cluttered mixed scenes.
+          </i>
+        </p>
+        
+        <h2>Figures and Tables</h2>
+        <div class="figures-tables">
+            <figure class="figure1">
+            <img src="img/intro.jpg" alt="Figure 1">
+            <figcaption>
+                <small>
+                Overview of Sim-Suction. The Sim-Suction is a deep-learning based
+                policy to determine the robust suction grasp poses in cluttered environments.
+                It has the following components: Sim-Suction-Dataset, a large-scale synthetic
+                dataset for suction cup gripper that combines analytical model and physical
+                simulation; Sim-Suction-Pointnet, an object-aware point-wise affordance
+                network that uses text prompt to predict grasp success probability for given
+                picking-up task.
+            </small>
+            </figcaption>
+          </figure>
+          <figure>
+            <img src="img/figure2.JPG" alt="Figure 2">
+            <figcaption>
+                <small>
+                    <strong>Left (1.5 cm radius bellows suction cup).</strong> We evaluate the seal performance by casting dense rays along surface normal vectors from the suction cup surface towards the object surface. To evaluate the suction dynamics, we model the suction cup gripper with a 6 degree of freedom joint. We set the suction cup bending angle limit to lock individual axes. We set 20 N force limit for 1.5 cm suction cup and check if the 6D joint can be created and maintained during the manipulator movement.
+                    <strong>Right (2.5 cm radius bellows suction cup).</strong> We set the 30 N force limit for 2.5 cm suction cup.
+                </small>
+            </figcaption>
+          </figure>
+          <figure>
+            <img src="img/sim-suction-pointnet.jpg" alt="Figure 3">
+            <figcaption>
+                <small>
+                    The Sim-Suction 6D suction grasp pose policy. The green marker represents the 6D grasp pose for the object instance with the highest confidence score. The transparency of the blue markers indicates the confidence score, with higher transparency implying lower confidence and vice versa.
+                </small>
+            </figcaption>
+          </figure>
+          <figure>
+            <img src="img/policy.jpg" alt="Figure 4">
+            <figcaption>
+                <small>
+                    The Sim-Suction policy task sequence examples. The policy demonstrates robust grasping reliability in real-world scenarios. The figure displays the policy applied in two tasks: (a) "pick up all objects", where the robot continuously attempts grasps until the table surface is clear, and (b) "pick up a specific object", where the policy focuses on grasping a target object based on the text prompt input.
+                </small>
+            </figcaption>
+          </figure>
+          <figure>
+            <img src="img/test_object.png" alt="Figure 5">
+            <figcaption>
+                <small>
+                    <strong>(Top)</strong> The experimental setup with a Fetch robot equipped with the Modular End-Effector System. 
+                    <strong>(Bottom)</strong> We choose 60 household items, with 20 objects in Level 1 (primitive shapes) and 40 objects in Level 2 (varied geometries). These objects are considered novel to the <em>Sim-Suction-Pointnet</em> policy, as it has no prior knowledge of them. The objects feature a range of challenging characteristics, such as complex geometries, irregular shapes, and varied surface textures, making the task more difficult.
+                    
+                </small>
+            </figcaption>
+          </figure>
+
+          <figure>
+            <img src="img/table.png" alt="Figure 6">
+            
+          </figure>
+
+        </div>
+        
+        <h2>Experimental Videos</h2>
+        <div class="video-container">
+        <div class="video">
+            <video controls>
+            <source src="videos/video5.mp4" type="video/mp4">
             Your browser does not support the video tag.
-        </video>
-        <video controls>
-            <source src="video2.mp4" type="video/mp4">
+            </video>
+        </div>
+        <div class="video">
+            <video controls>
+            <source src="videos/video1.mp4" type="video/mp4">
             Your browser does not support the video tag.
-        </video>
-        <video controls>
-            <source src="video3.mp4" type="video/mp4">
+            </video>
+        </div>
+
+        <div class="video">
+            <video controls>
+            <source src="videos/video2.mp4" type="video/mp4">
             Your browser does not support the video tag.
-        </video>
+            </video>
+        </div>
+        <div class="video">
+            <video controls>
+            <source src="videos/video3.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="video">
+            <video controls>
+            <source src="videos/video4.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+            </video>
+        </div>
+        
     </div>
-</body>
-</html>
-
-
+        
+        <h2>Citation and arXiv Link</h2>
+        <div class="citation-section">
+        <a href="https://arxiv.org/abs/2305.16378" target="_blank">Arxiv:2305.16378</a>
+        <span>BibTeX:</span>
+        <pre>
+        @misc{li2023simsuction,
+            title={Sim-Suction: Learning a Suction Grasp Policy for Cluttered Environments Using a Synthetic Benchmark},
+            author={Juncheng Li and David J. Cappelleri},
+            year={2023},
+            eprint={2305.16378},
+            archivePrefix={arXiv},
+            primaryClass={cs.RO}
+        }
+        </pre>
+        </div>
+                  
+                  <h2>Acknowledgements</h2>
+                  <p> The authors would like to acknowledge the use of the
+                    facilities at the Indiana Next Generation Manufacturing Competitiveness Center (IN-MaC) for this paper. A portion of
+                    this work was supported by a Space Technology Research
+                    Institutes grant (# 80NSSC19K1076) from NASA’s Space
+                    Technology Research Grants Program. </p>
+                  <div class="acknowledgement-logos">
+                    <img src="img/nasa.png" alt="Lab logo 1">
+                    <img src="img/rethi.png" alt="Lab logo 2">
+                    <img src="img/inmac.png" alt="Funding logo 1">
+                  </div>
+                </div>
+              </div>
+              <footer>
+                &copy; 2023 Sim-Suction | Juncheng Li, David Cappelleri | Purdue University
+              </footer>
+              <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+              <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+            </body>
+            </html>
